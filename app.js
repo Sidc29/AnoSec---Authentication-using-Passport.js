@@ -22,7 +22,7 @@ app.set('trust proxy', 1);
 
 app.use(session({
     secret: process.env.SECRET,
-    // cookie: { maxAge: 86400000, secure: true },
+    cookie: { maxAge: 86400000, secure: true },
     store: new MongoStore({ mongoUrl: process.env.MONGO_URI }),
     resave: false,
     saveUninitialized: false
