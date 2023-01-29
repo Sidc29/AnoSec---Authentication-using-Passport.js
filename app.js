@@ -6,7 +6,7 @@ const ejs = require('ejs');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
-const MemoryStore = require('memorystore')(session)
+const MongoStore = require('connect-mongo');
 const passportLocalMongoose = require("passport-local-mongoose");
 
 const app = express();
@@ -18,12 +18,12 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// app.set('trust proxy', 1);
+
 app.use(session({
     secret: process.env.SECRET,
-    cookie: { maxAge: 86400000 },
-    store: new MemoryStore({
-        checkPeriod: 86400000 // prune expired entries every 24h
-    }),
+    cookie: { maxAge: 86400000, secure: true },
+    store: new MongoStore({ mongoUrl: process.env.MONGO_URI }),
     resave: false,
     saveUninitialized: false
 }))
