@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const session = require('cookie-session');
+const session = require('express-session');
+const MemoryStore = require('memorystore')(session)
 const passportLocalMongoose = require("passport-local-mongoose");
 
 const app = express();
@@ -19,11 +20,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
     secret: process.env.SECRET,
+    store: new MemoryStore({
+        checkPeriod: 86400000 // prune expired entries every 24h
+    }),
     resave: false,
-    saveUninitialized: true,
-    cookie: {
-        secure: true
-    }
+    saveUninitialized: false
 }))
 
 app.use(passport.initialize());
