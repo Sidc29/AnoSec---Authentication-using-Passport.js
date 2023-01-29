@@ -18,7 +18,7 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.set('trust proxy', 1);
+app.set('trust proxy', 1);
 
 app.use(session({
     secret: process.env.SECRET,
