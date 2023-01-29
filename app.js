@@ -22,7 +22,7 @@ app.set('trust proxy', 1);
 
 app.use(session({
     secret: process.env.SECRET,
-    cookie: { maxAge: 86400000, secure: true },
+    // cookie: { maxAge: 86400000, secure: true },
     store: new MongoStore({ mongoUrl: process.env.MONGO_URI }),
     resave: false,
     saveUninitialized: false
@@ -156,6 +156,8 @@ app.post("/login", (req, res) => {
 
 app.use(notFoundMiddleware)
 
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000
+
+app.listen(PORT, () => {
     console.log("Server is up and running on port 3000");
 })
